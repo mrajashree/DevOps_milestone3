@@ -1,10 +1,14 @@
 # Example Express Application
 
 ##For devops m3!
-Run using node app.js <port>
-npm test to be used for testing
-
-
+Test:
+```
+npm test
+```
+Run server:
+```
+node app.js <port>
+```
 [![Build Status](https://travis-ci.org/shapeshed/express_example.png?branch=master)](https://travis-ci.org/shapeshed/express_example)
 
 This is an example [express][4] application to accompany the article [Creating a basic site with node.js and Express][1]. The site is [hosted on Heroku][6].
