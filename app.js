@@ -18,7 +18,7 @@ var alert_flag = 0
 
 
 if(app.get('port') == '3000')
-  name = 'stable'
+  name = 'production'
 else
   name = 'canary'
 
