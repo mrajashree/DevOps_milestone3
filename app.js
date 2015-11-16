@@ -16,6 +16,12 @@ var express = require('express'),
 var app = express();
 var alert_flag = 0
 
+
+if(app.get('port') == '3000')
+  name = 'stable'
+else
+  name = 'canary'
+
 var transporter = nodemailer.createTransport({
     service: 'Gmail',
     auth: {
@@ -27,9 +33,9 @@ var transporter = nodemailer.createTransport({
 var mailOptions = {
     from: process.argv[3], // sender address 
     to: 'rsmandao@ncsu.edu', // list of receivers 
-    subject: 'Hello ✔', // Subject line 
-    text: 'Hello world ✔', // plaintext body 
-    html: '<b>Hello world ✔</b>' // html body 
+    subject: 'Alert from '+name, // Subject line 
+    text: 'CPU overload!', // plaintext body 
+    html: '<b>Check the release ✔</b>' // html body 
 };
 
 
@@ -82,11 +88,6 @@ app.get('/contact', function(req, res){
     title: 'Contact'
   });
 });
-
-if(app.get('port') == '3000')
-  name = 'stable'
-else
-  name = 'canary'
 
 var socket = io.connect('http://127.0.0.1:4000');
 socket.on('connect', function () { 
