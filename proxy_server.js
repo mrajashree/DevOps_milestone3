@@ -3,7 +3,6 @@ var httpProxy = require('http-proxy');
 var redis = require('redis')
 var express = require('express')
 var app = express()
-var spawn = require('child_process').spawn;
 var client = redis.createClient(6379, '127.0.0.1', {})
 var socket_io = require('socket.io')
 var os = require('os')
@@ -47,7 +46,7 @@ io.sockets.on('connection', function (socket) {
 		console.log('Client connected')
         socket.on('heartbeat',function(data){
               console.log(data);
-              if(data.Name=='canary' && data.cpu > 20)
+              if(data.Name=='canary' && data.cpu > 10)
               {
               		console.log("NOW STOP Canary")
               		client.del('hosts')

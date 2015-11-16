@@ -9,9 +9,29 @@ var express = require('express'),
   http = require('http'),
   path = require('path'),
   io = require('socket.io-client'),
-  os = require('os');
+  os = require('os'),
+  redis = require('redis'),
+  nodemailer = require('nodemailer');
 
 var app = express();
+var alert_flag = 0
+
+var transporter = nodemailer.createTransport({
+    service: 'Gmail',
+    auth: {
+        user: process.argv[3],
+        pass: process.argv[4]
+    }
+});
+
+var mailOptions = {
+    from: process.argv[3], // sender address 
+    to: 'rsmandao@ncsu.edu', // list of receivers 
+    subject: 'Hello ✔', // Subject line 
+    text: 'Hello world ✔', // plaintext body 
+    html: '<b>Hello world ✔</b>' // html body 
+};
+
 
 app.configure(function(){
   app.set('port', process.env.PORT || process.argv[2]);
@@ -126,6 +146,20 @@ function cpuAverage()
   avg_cpu_usage = ((totalDifference - idleDifference) / totalDifference) * 100;
   //Calculate the average percentage CPU usage
   console.log(avg_cpu_usage)
+  if(avg_cpu_usage > 5)
+  {
+    if(alert_flag == 0)
+    {
+      console.log("SEND")
+      transporter.sendMail(mailOptions, function(error, info){
+        if(error){
+            return console.log(error);
+        }
+        console.log('Message sent: ' + info.response);
+      });
+      alert_flag = 1
+    }
+  }
   return avg_cpu_usage;
 }
 
