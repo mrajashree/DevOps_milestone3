@@ -17,11 +17,6 @@ var app = express();
 var alert_flag = 0
 
 
-if(app.get('port') == '3000')
-  name = 'production'
-else
-  name = 'canary'
-
 var transporter = nodemailer.createTransport({
     service: 'Gmail',
     auth: {
@@ -30,17 +25,9 @@ var transporter = nodemailer.createTransport({
     }
 });
 
-var mailOptions = {
-    from: process.argv[3], // sender address 
-    to: 'rsmandao@ncsu.edu', // list of receivers 
-    subject: 'Alert from '+name, // Subject line 
-    text: 'CPU overload!', // plaintext body 
-    html: '<b>Check the release ✔</b>' // html body 
-};
-
 
 app.configure(function(){
-  app.set('port', process.env.PORT || process.argv[2]);
+  app.set('port', process.env.PORT || 3000);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
   app.use(express.favicon());
@@ -65,6 +52,20 @@ if(app.get('port') == '3000')
   var message = 'Production! (Stable)'
 else
   var message = 'Canary'
+
+if(app.get('port') == '3000')
+  name = 'production'
+else
+  name = 'canary'
+
+var mailOptions = {
+    from: process.argv[3], // sender address 
+    to: 'rsmandao@ncsu.edu', // list of receivers 
+    subject: 'Alert from '+name, // Subject line 
+    text: 'CPU overload!', // plaintext body 
+    html: '<b>Check the release ✔</b>' // html body 
+};
+
 
 app.get('/',function(req, res) { 
   res.writeHead(200, {'content-type':'text/html'});
