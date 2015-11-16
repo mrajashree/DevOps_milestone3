@@ -7,7 +7,7 @@ npm test
 ```
 Run server:
 ```
-node app.js <port>
+node app.js <port> <email_username> <email_password>
 ```
 [![Build Status](https://travis-ci.org/shapeshed/express_example.png?branch=master)](https://travis-ci.org/shapeshed/express_example)
 
